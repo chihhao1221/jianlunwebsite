@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>健綸居家護理所 - 健保收費試算</title>
+    <style type="text/css">
+        /* --- 全域防拷貝 CSS --- */
+        body {
+            -webkit-user-select: none;  
+            -moz-user-select: none;     
+            -ms-user-select: none;      
+            user-select: none;
+            
+            margin: 0; padding: 0;
+            font-family: "Quicksand", "cwTeYuan", "華康中圓體", "Microsoft JhengHei", sans-serif;
+            background-color: #fdfaf2; 
+            background-image: radial-gradient(#e2efda 1px, transparent 1px), radial-gradient(#e2efda 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            background-attachment: fixed;
+            display: flex; flex-direction: column; min-height: 100vh;
+        }
+
+        /* --- 圖片防護：禁止拖曳 --- */
+        img {
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            pointer-events: none; 
+        }
+
+        .header-banner { width: 100%; background-color: #fff; overflow: hidden; animation: fadeInDown 1.5s ease-out; }
+        .header-banner img { width: 100%; height: auto; display: block; pointer-events: none; }
+
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .container { flex: 1; width: 100%; max-width: 1000px; margin: 20px auto 40px auto; display: flex; flex-wrap: wrap; background-color: rgba(255, 255, 255, 0.9); border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden; }
+
+        .sidebar { width: 220px; padding: 30px 20px; background-color: #fffafb; border-right: 1px solid #fff0f5; }
+        .sidebar-title { font-size: 1.2em; font-weight: bold; color: #CC3399; margin-bottom: 20px; border-bottom: 2px solid #FFC0CB; padding-bottom: 8px; text-align: center; }
+        .sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .sidebar li { margin-bottom: 12px; }
+        .sidebar a { text-decoration: none; color: #555; font-weight: bold; display: flex; align-items: center; padding: 10px 15px; border-radius: 50px; transition: all 0.3s ease; }
+        .sidebar a::before { content: "🌿"; margin-right: 10px; }
+        
+        .sidebar a:hover { 
+            background-color: #FFF0F5; 
+            color: #d81b60;           
+            padding-left: 25px; 
+            box-shadow: 2px 2px 10px rgba(216, 27, 96, 0.08); 
+        }
+
+        .sidebar-logos { padding: 15px 15px; display: flex; gap: 15px; align-items: center; justify-content: flex-start; margin-top: 5px; }
+        .sidebar-logos img { width: 80px; height: 80px; object-fit: contain; mix-blend-mode: multiply; opacity: 0.9; }
+
+        .content { flex: 1; padding: 30px; min-width: 320px; }
+        .section-title { position: relative; display: inline-block; font-size: 28px; font-weight: bold; color: #d81b60; margin-bottom: 25px; padding: 5px 15px 5px 45px; background: linear-gradient(to right, #ffebee, transparent); border-radius: 50px 10px 10px 50px; }
+        .section-title::before { content: "♥"; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; background-color: #FF00CC; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+        .pink-border-box { border: 2px solid #FFC0CB; border-radius: 12px; margin-bottom: 20px; background-color: #fff; }
+        .title-bar { background-color: #FFC0CB; padding: 12px; text-align: center; font-weight: bold; color: #d81b60; }
+        .form-group { padding: 20px; }
+        select, input[type="button"] { width: 100%; padding: 12px; margin: 10px 0 20px 0; border-radius: 10px; border: 1px solid #ffccd5; font-size: 16px; -webkit-user-select: auto; user-select: auto; }
+        #trycal { background-color: #FF00CC; color: white; border: none; cursor: pointer; font-size: 18px; font-weight: bold; transition: all 0.3s; }
+        #trycal:hover { background-color: #e600b8; transform: translateY(-2px); }
+
+        .disclaimer-box { background-color: #f9f9f9; border-radius: 8px; padding: 12px; margin-top: 20px; border-top: 1px solid #eee; }
+        .disclaimer-text { font-size: 13px; color: #777; line-height: 1.6; display: inline-block; text-align: left; }
+        .disclaimer-text::before { content: "※"; margin-right: 4px; color: #CC3399; }
+
+        .footer { background: linear-gradient(180deg, transparent 0%, #e2efda 100%); padding: 50px 20px 30px 20px; margin-top: auto; position: relative; }
+        .footer-container { max-width: 1000px; margin: 0 auto; text-align: center; }
+        .footer-info-cards { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; }
+        .info-card { background-color: rgba(255, 255, 255, 0.7); padding: 10px 20px; border-radius: 30px; font-size: 14px; color: #555; box-shadow: 0 2px 8px rgba(0,0,0,0.05); display: flex; align-items: center; border: 1px solid #fff; }
+        .info-card i { margin-right: 8px; color: #CC3399; font-style: normal; }
+        .copyright { font-size: 13px; color: #88a07c; margin-top: 15px; letter-spacing: 1px; }
+
+        @media (max-width: 768px) { .container { flex-direction: column; margin: 10px; width: calc(100% - 20px); } .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #eee; } .sidebar-logos { justify-content: center; } .info-card { width: 100%; justify-content: center; } }
+    </style>
+</head>
+
+<body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
+
+    <div class="header-banner">
+        <img src="watermarked_img_8825998318598150602.png" alt="健綸居家護理所">
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-title">快速選單</div>
+            <ul>
+                <li><a href="index.html">服務介紹</a></li>
+                <li><a href="homecarechargetrial.html">收費試算</a></li>
+                <li><a href="contractpreview.html">合約審閱</a></li>
+            </ul>
+            <div class="sidebar-logos">
+                <img src="image003.png" alt="全民健康保險">
+                <img src="1777978088760-7a42afe7-7617-44b8-bce3-da133c2e79e0_1.png" alt="居家醫療">
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="section-title">健保收費試算</div>
+            <form id="form1">
+                <div class="pink-border-box">
+                    <div class="title-bar">試算條件選擇</div>
+                    <div class="form-group">
+                        <label style="font-weight: bold; color: #666;">個案身份別</label>
+                        <select id="type" onchange="reset_res();">
+                            <option value="0">一般健保</option>
+                            <option value="1">榮民榮眷</option>
+                            <option value="2">低收入戶</option>
+                            <option value="3">重大傷病</option>
+                            <option value="4">百歲人瑞</option>
+                        </select>
+                        <label style="font-weight: bold; color: #666;">護理服務項目</label>
+                        <select id="service" size="1" onchange="reset_res();">
+                            <option value="76">普通導尿管</option>
+                            <option value="76">普通鼻胃管</option>
+                            <option value="81">矽質導尿管</option>
+                            <option value="122">特材氣切管</option>
+                            <option value="80">矽質鼻胃管</option>
+                            <option value="92">普通導尿管＋普通鼻胃管</option>
+                            <option value="138">普通鼻胃管＋特材氣切管</option>
+                            <option value="138">普通導尿管＋特材氣切管</option>
+                            <option value="100">矽質導尿管＋矽質鼻胃管</option>
+                            <option value="141">矽質鼻胃管＋特材氣切管</option>
+                            <option value="96">普通導尿管＋矽質鼻胃管</option>
+                            <option value="153">普通導尿管＋普通鼻胃管＋特材氣切管</option>
+                            <option value="157">普通導尿管＋矽質鼻胃管＋特材氣切管</option>
+                            <option value="158">矽質導尿管＋普通鼻胃管＋特材氣切管</option>
+                            <option value="161">矽質導尿管＋矽質鼻胃管＋特材氣切管</option>
+                        </select>
+                        <input id="trycal" value="開 始 試 算" onclick="cal();" type="button" />
+                    </div>
+                </div>
+
+                <div id="result" class="pink-border-box" style="display: none;">
+                    <div class="title-bar">試算結果明細</div>
+                    <div class="form-group" style="text-align: center;">
+                        <p>身份別：<span id="res_id" style="font-weight: bold;"></span></p>
+                        <p>服務內容：<span id="res_service" style="font-weight: bold;"></span></p>
+                        <div style="margin: 15px 0; border-top: 1px dashed #FFC0CB;"></div>
+                        <p style="color: #FF00CC; font-size: 24px; font-weight: bold;">部分負擔：<span id="res_sum"></span></p>
+                        <div class="disclaimer-box">
+                            <div class="disclaimer-text">費用試算僅供參考，交通車資依訪視地點不同另計，<br>詳情請來電洽詢。</div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div style="font-weight: bold; color: #d81b60; font-size: 18px; margin-bottom: 20px;">健綸居家護理所</div>
+            <div class="footer-info-cards">
+                <div class="info-card"><i>📍</i>地址：新北市板橋區金門街372巷14號</div>
+                <div class="info-card"><i>📞</i>電話：02-26868460</div>
+				<div class="info-card"><i>📱</i>手機：0988-605-887</div>
+                <div class="info-card"><i>✉</i>信箱：jianlun.nursing@gmail.com</div>
+            </div>
+            <div class="copyright">健綸居家護理所 版權所有 © All Rights Reserved</div>
+        </div>
+    </footer>
+
+    <script>
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123) return false; 
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false; 
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false; 
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false; 
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; 
+        };
+
+        function reset_res() { document.getElementById("result").style.display = "none"; }
+        function cal() {
+            var type = document.getElementById("type");
+            var service = document.getElementById("service");
+            document.getElementById("res_id").innerText = type.options[type.selectedIndex].text;
+            document.getElementById("res_service").innerText = service.options[service.selectedIndex].text;
+            var val = (type.value == "0") ? service.value : "0";
+            document.getElementById("res_sum").innerText = (val == "0") ? "免部分負擔" : val + " 元";
+            document.getElementById("result").style.display = "block";
+        }
+    </script>
+</body>
+</html>

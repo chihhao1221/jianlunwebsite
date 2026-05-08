@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>健綸居家護理所 - 合約審閱 (自動浮水印版)</title>
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <style type="text/css">
+        /* --- 全域防拷貝與樣式設定 --- */
+        body {
+            -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+            margin: 0; padding: 0;
+            font-family: "Quicksand", "cwTeYuan", "華康中圓體", "Microsoft JhengHei", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background-color: #fdfaf2; 
+            background-image: radial-gradient(#e2efda 1px, transparent 1px), radial-gradient(#e2efda 1px, transparent 1px);
+            background-size: 40px 40px; background-position: 0 0, 20px 20px; background-attachment: fixed;
+            display: flex; flex-direction: column; min-height: 100vh;
+        }
+
+        /* 圖片防護 */
+        img { -webkit-user-drag: none; pointer-events: none; }
+
+        /* 頁首 Banner */
+        .header-banner { width: 100%; background-color: #fff; overflow: hidden; animation: fadeInDown 1.5s ease-out; }
+        .header-banner img { width: 100%; height: auto; display: block; }
+
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* 主內容容器 */
+        .container { flex: 1; width: 100%; max-width: 1000px; margin: 20px auto 40px auto; display: flex; flex-wrap: wrap; background-color: rgba(255, 255, 255, 0.9); border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden; }
+
+        /* 左側選單 */
+        .sidebar { width: 220px; padding: 30px 20px; background-color: #fffafb; border-right: 1px solid #fff0f5; }
+        .sidebar-title { font-size: 1.2em; font-weight: bold; color: #CC3399; margin-bottom: 20px; border-bottom: 2px solid #FFC0CB; padding-bottom: 8px; text-align: center; }
+        .sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .sidebar li { margin-bottom: 12px; }
+        .sidebar a { text-decoration: none; color: #555; font-weight: bold; display: flex; align-items: center; padding: 10px 15px; border-radius: 50px; transition: all 0.3s ease; }
+        .sidebar a::before { content: "🌿"; margin-right: 10px; }
+        
+        .sidebar a:hover { 
+            background-color: #FFF0F5; 
+            color: #d81b60;           
+            padding-left: 25px; 
+            box-shadow: 2px 2px 10px rgba(216, 27, 96, 0.08); 
+        }
+
+        .sidebar-logos { padding: 15px 15px; display: flex; gap: 15px; align-items: center; justify-content: flex-start; margin-top: 5px; }
+        .sidebar-logos img { width: 80px; height: 80px; object-fit: contain; mix-blend-mode: multiply; opacity: 0.9; }
+
+        /* 右側主要內容區 */
+        .content { flex: 1; padding: 30px; min-width: 320px; }
+        .section-title { position: relative; display: inline-block; font-size: 28px; font-weight: bold; color: #d81b60; margin-bottom: 25px; padding: 5px 15px 5px 45px; background: linear-gradient(to right, #ffebee, transparent); border-radius: 50px 10px 10px 50px; }
+        .section-title::before { content: "♥"; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; background-color: #FF00CC; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+        /* 下載按鈕樣式 */
+        .download-btn {
+            background-color: #FF00CC; color: white; border: none; padding: 15px 25px;
+            border-radius: 50px; cursor: pointer; font-size: 16px; font-weight: bold;
+            margin-bottom: 10px; transition: all 0.3s; display: inline-block;
+            box-shadow: 0 4px 10px rgba(255, 0, 204, 0.2);
+        }
+        .download-btn:hover { background-color: #cc00a3; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(255, 0, 204, 0.3); }
+        .download-btn:disabled { background-color: #ccc; cursor: not-allowed; }
+
+        .note-text { font-size: 13px; color: #888; margin-bottom: 25px; }
+
+        /* PDF 容器防護優化 */
+        .pdf-wrapper { 
+            border: 3px solid #FFC0CB; 
+            border-radius: 12px; 
+            background-color: #fff; 
+            padding: 0; 
+            overflow: hidden; 
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        
+        embed { pointer-events: auto; }
+
+        /* 頁尾 */
+        .footer { background: linear-gradient(180deg, transparent 0%, #e2efda 100%); padding: 50px 20px 30px 20px; margin-top: auto; position: relative; }
+        .footer-container { max-width: 1000px; margin: 0 auto; text-align: center; }
+        .footer-info-cards { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; }
+        .info-card { background-color: rgba(255, 255, 255, 0.7); padding: 10px 20px; border-radius: 30px; font-size: 14px; color: #555; box-shadow: 0 2px 8px rgba(0,0,0,0.05); display: flex; align-items: center; border: 1px solid #fff; }
+        .info-card i { margin-right: 8px; color: #CC3399; font-style: normal; }
+        .copyright { font-size: 13px; color: #88a07c; margin-top: 15px; letter-spacing: 1px; }
+
+        @media (max-width: 768px) { .container { flex-direction: column; margin: 10px; width: calc(100% - 20px); } .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #eee; } .sidebar-logos { justify-content: center; } }
+    </style>
+</head>
+
+<body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
+
+    <div class="header-banner">
+        <img src="watermarked_img_8825998318598150602.png" alt="健綸居家護理所">
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-title">快速選單</div>
+            <ul>
+                <li><a href="index.html">服務介紹</a></li>
+                <li><a href="homecarechargetrial.html">收費試算</a></li>
+                <li><a href="contractpreview.html">合約審閱</a></li>
+            </ul>
+            <div class="sidebar-logos">
+                <img src="image003.png" alt="全民健康保險">
+                <img src="1777978088760-7a42afe7-7617-44b8-bce3-da133c2e79e0_1.png" alt="居家醫療">
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="section-title">合約審閱</div>
+            
+            <div style="text-align: center;">
+                <button class="download-btn" onclick="downloadWithWatermark()">⬇ 下載含有審閱時間戳記之 PDF</button>
+                <div class="note-text">* 基於資安與審閱記錄考量，請統一由此處下載文件</div>
+
+                <div class="pdf-wrapper">
+                    <embed src="document/居家護理服務合約書1150325.pdf#toolbar=0&navpanes=0&scrollbar=0" type="application/pdf" width="100%" height="700px">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div style="font-weight: bold; color: #d81b60; font-size: 18px; margin-bottom: 20px;">健綸居家護理所</div>
+            <div class="footer-info-cards">
+                <div class="info-card"><i>📍</i>地址：新北市板橋區金門街372巷14號</div>
+                <div class="info-card"><i>📞</i>電話：02-26868460</div>
+                <div class="info-card"><i>📱</i>手機：0988-605-887</div>
+                <div class="info-card"><i>✉</i>信箱：jianlun.nursing@gmail.com</div>
+            </div>
+            <div class="copyright">健綸居家護理所 版權所有 © All Rights Reserved</div>
+        </div>
+    </footer>
+
+    <script>
+        // 禁用右鍵與開發者工具快捷鍵
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123) return false; 
+            if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0))) return false;
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+            if (e.ctrlKey && e.keyCode == 'P'.charCodeAt(0)) return false; 
+        };
+
+        async function downloadWithWatermark() {
+            const pdfUrl = 'document/居家護理服務合約書1150325.pdf';
+            const btn = document.querySelector('.download-btn');
+            
+            try {
+                btn.innerText = '處理中...';
+                btn.disabled = true;
+
+                const response = await fetch(pdfUrl);
+                if (!response.ok) throw new Error('無法讀取 PDF 檔案，請確認路徑是否正確');
+                const existingPdfBytes = await response.arrayBuffer();
+
+                const { PDFDocument, rgb, StandardFonts } = PDFLib;
+                const pdfDoc = await PDFDocument.load(existingPdfBytes);
+                const helveticaFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+
+                const now = new Date();
+                const timeString = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2,'0')}-${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
+                const watermarkText = `Reviewed at: ${timeString}`;
+
+                const pages = pdfDoc.getPages();
+                pages.forEach(page => {
+                    const { width, height } = page.getSize();
+                    page.drawText(watermarkText, {
+                        x: width - 250,
+                        y: height - 30,
+                        size: 10,
+                        font: helveticaFont,
+                        color: rgb(0.8, 0, 0),
+                        opacity: 0.6,
+                    });
+                });
+
+                const pdfBytes = await pdfDoc.save();
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `健綸合約_審閱存檔_${now.getTime()}.pdf`;
+                link.click();
+
+            } catch (err) {
+                alert('下載失敗：' + err.message);
+            } finally {
+                btn.innerText = '⬇ 下載含有審閱時間戳記之 PDF';
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
