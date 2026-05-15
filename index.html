@@ -50,8 +50,24 @@
 
         /* 右側主要內容區 */
         .content { flex: 1; padding: 30px; min-width: 320px; color: #444; line-height: 1.8; }
-        .section-title { position: relative; display: inline-block; font-size: 28px; font-weight: bold; color: #d81b60; margin-bottom: 25px; padding: 5px 15px 5px 45px; background: linear-gradient(to right, #ffebee, transparent); border-radius: 50px 10px 10px 50px; }
-        .section-title::before { content: "♥"; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; background-color: #FF00CC; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        
+        /* 修正：將 .section-title 改為 h1 標籤的樣式，並重設 h1 的瀏覽器內建 margin 內距 */
+        h1.section-title { 
+            position: relative; display: inline-block; font-size: 28px; font-weight: bold; color: #d81b60; margin: 0 0 25px 0; padding: 5px 15px 5px 45px; background: linear-gradient(to right, #ffebee, transparent); border-radius: 50px 10px 10px 50px; 
+        }
+        h1.section-title::before { content: "♥"; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; background-color: #FF00CC; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+        /* 修正：用於讓搜尋引擎爬取關鍵字，但畫面上隱藏的視覺優化樣式 */
+        .seo-keywords {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
 
         .sub-title { font-size: 20px; font-weight: bold; color: #CC3399; margin-top: 20px; border-left: 4px solid #FFC0CB; padding-left: 10px; margin-bottom: 10px; }
         
@@ -141,7 +157,10 @@
         </div>
 
         <div class="content">
-            <div class="section-title">服務介紹</div>
+            <h1 class="section-title">
+                服務介紹
+                <span class="seo-keywords"> - 健綸居家護理所｜板橋居家護理所：提供專業居家護理、居家照護、更換鼻胃管、更換導尿管與更換氣切服務。健綸用心，醫護到府最安心。</span>
+            </h1>
             
             <div class="sub-title">居家護理：</div>
             <p style="text-align: justify; margin-bottom: 15px;">
@@ -207,7 +226,7 @@
             <div class="modal-body">
                 <div class="indent-group">
                     <p style="font-weight: bold; color: #d81b60;">一、收案對象須符合下列各項條件：</p>
-                    <div class="indent-1">(一) 病人只能維持有限之自我照顧能力，即清醒時，百分之五十以上活動限制在床上或椅子上，或因疾病特性致外出就醫不便（指所患疾病雖不影響運動功能，但外出就醫確有困難者）。</div>
+                    <div class="indent-1">(一) 病人只能維持有限之自我照顧能力，即清醒時，百分之五十以上活動限制在床上 or 椅子上，或因疾病特性致外出就醫不便（指所患疾病雖不影響運動功能，但外出就醫確有困難者）。</div>
                     <div class="indent-1">(二) 有明確之醫療與護理服務項目需要服務者。</div>
                     <div class="indent-1">(三) 罹患慢性病需長期護理之病人 or 出院後需繼續護理之病人。</div>
                 </div>

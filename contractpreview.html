@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>健綸居家護理所 - 合約審閱 (自動浮水印版)</title>
     
-    <!-- 網站圖示設定 -->
     <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="shortcut icon" href="favicon.ico" />
@@ -58,8 +57,24 @@
 
         /* 右側主要內容區 */
         .content { flex: 1; padding: 30px; min-width: 320px; }
-        .section-title { position: relative; display: inline-block; font-size: 28px; font-weight: bold; color: #d81b60; margin-bottom: 25px; padding: 5px 15px 5px 45px; background: linear-gradient(to right, #ffebee, transparent); border-radius: 50px 10px 10px 50px; }
-        .section-title::before { content: "♥"; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; background-color: #FF00CC; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        
+        /* 修正：將 .section-title 升級為 h1 標籤樣式，並重設外距 */
+        h1.section-title { 
+            position: relative; display: inline-block; font-size: 28px; font-weight: bold; color: #d81b60; margin: 0 0 25px 0; padding: 5px 15px 5px 45px; background: linear-gradient(to right, #ffebee, transparent); border-radius: 50px 10px 10px 50px; 
+        }
+        h1.section-title::before { content: "♥"; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; background-color: #FF00CC; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+        /* 修正：用於讓搜尋引擎爬取關鍵字，但畫面上隱藏的視覺優化樣式 */
+        .seo-keywords {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
 
         /* 下載按鈕樣式 */
         .download-btn {
@@ -67,6 +82,7 @@
             border-radius: 50px; cursor: pointer; font-size: 16px; font-weight: bold;
             margin-bottom: 10px; transition: all 0.3s; display: inline-block;
             box-shadow: 0 4px 10px rgba(255, 0, 204, 0.2);
+            -webkit-user-select: auto; user-select: auto;
         }
         .download-btn:hover { background-color: #cc00a3; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(255, 0, 204, 0.3); }
         .download-btn:disabled { background-color: #ccc; cursor: not-allowed; }
@@ -119,7 +135,10 @@
         </div>
 
         <div class="content">
-            <div class="section-title">合約審閱</div>
+            <h1 class="section-title">
+                合約審閱
+                <span class="seo-keywords"> - 健綸居家護理所｜板橋居家護理合約：居家護理服務契約書線上審閱。提供定型化契約五日審閱期保障，透明公開居家照護服務權利義務與保障條款。</span>
+            </h1>
             
             <div style="text-align: center;">
                 <button class="download-btn" onclick="downloadWithWatermark()">⬇ 下載含有審閱時間戳記之 PDF</button>
